@@ -23,6 +23,8 @@ $(TARGET): $(OBJECTS)
 run:
 	./$(TARGET)
 
+test:
+	./$(TARGET) < input.txt
 clean:
 	-rm -f *.o
 	-rm -f $(TARGET)
