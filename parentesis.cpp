@@ -18,6 +18,7 @@ bool isParentesis(char caracter){
     return false;
 }
 
+// Adaptación de https://stackoverflow.com/a/3846589/2213659
 struct OrdenLexicografico {
     bool operator () (const std::string & palabra1, const std::string & palabra2) {
         return palabra1 < palabra2;
@@ -91,7 +92,7 @@ int main() {
                     }
                     
                 }
-            }
+            } 
             
             removidos.pop();
         }
