@@ -53,58 +53,58 @@ class Parentesis {
 };
 
 int main() {
-    string input;
+    string input = "_";
     string testString;
     stringstream temporal;
     queue<string> removidos;
-    set<string, OrdenLexicografico> salida;
-    set <string> :: iterator itr;
+    
     int i;
     int largoString;
     int largoInput;
+    int levelSolucion;
 
-    getline(cin,input);
-    removidos.push(input);
-    largoInput = input.length();
+    while(getline(cin,input)){
+        set<string, OrdenLexicografico> salida;
+        set <string> :: iterator itr;
+        removidos.push(input);
+        largoInput = input.length();
+        levelSolucion = largoInput;
 
-    int levelSolucion = largoInput;
-
-    
-    // Por cada nivel vemos si esta balanceado y si no esta bajamos un nivel, si esta lo agregamos al output
-    while(removidos.size() != 0){
-        testString = removidos.front();
-        // Es string valido, agregamos a resultados y terminamos la busqueda por esta rama
-        if(Parentesis::isBalanced(testString)){
-            levelSolucion = largoInput - testString.length();
-            salida.insert(testString);
-            removidos.pop();
-        }
-        else{
-            // Sacamos otro caracter para ver si ahora si es valido.
-            
-            largoString = (int)testString.length();
-            if(largoInput - largoString <= levelSolucion){
-                for (i = 0; i < largoString ; ++i){
-                    if(isParentesis(testString[i])){
-                        temporal.str(" ");
-                        temporal << testString.substr(0, i) << testString.substr(i+1) ;
-                        removidos.push( temporal.str() );
+        // Iteramos mientras la queue no este vacia
+        while(removidos.size() != 0){
+            testString = removidos.front();
+            // Es string valido, agregamos a resultados, terminamos la busqueda por esta rama y seteamos el nivel
+            if(Parentesis::isBalanced(testString)){
+                levelSolucion = largoInput - testString.length();
+                salida.insert(testString);
+                removidos.pop();
+            }
+            else{
+                // Sacamos otro caracter para ver si ahora si es valido.
+                largoString = (int)testString.length();
+                if(largoInput - largoString <= levelSolucion){
+                    for (i = 0; i < largoString ; ++i){
+                        if(isParentesis(testString[i])){
+                            temporal.str(" ");
+                            temporal << testString.substr(0, i) << testString.substr(i+1) ;
+                            removidos.push( temporal.str() );
+                        }
+                        
                     }
-                    
-                }
-            } 
+                } 
+                
+                removidos.pop();
+            }
+
             
-            removidos.pop();
         }
 
-        
+
+        for (itr = salida.begin(); itr != salida.end(); ++itr){
+            cout << *itr << endl;
+        }
+        cout << endl;
     }
-
-
-    for (itr = salida.begin(); itr != salida.end(); ++itr){
-        cout << *itr << endl;
-    }
-
 
 
 }
