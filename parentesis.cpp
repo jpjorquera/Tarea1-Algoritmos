@@ -2,6 +2,7 @@
 #include <queue>
 #include <set>
 #include <iterator>
+#include <ctime>// include this header
 
 using namespace std;
 
@@ -92,6 +93,7 @@ class Parentesis {
 };
 
 int main() {
+    int start_s=clock();
     string input = "";
     set <string, OrdenLexicografico> salida;
     set <string> :: iterator itr;
@@ -102,4 +104,6 @@ int main() {
         }
         cout << endl;
     }
+    int stop_s=clock();
+    cout << "time: " << (stop_s-start_s)/double(CLOCKS_PER_SEC)*1000 << endl;
 }
