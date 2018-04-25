@@ -1,6 +1,5 @@
 #include<iostream>
 #include <queue>
-#include <unistd.h>
 #include <set>
 #include <iterator>
 
@@ -62,9 +61,7 @@ class Parentesis {
             unsigned int solved_size = 0;
             set <string, OrdenLexicografico> soluciones;
             while (!current.empty()) {
-                //cout << "\nsize:"<<current.size();
                 intento = current.front();
-                //cout << "\n intento actual: " << intento;
                 current.pop();
 
                 int size_aux = intento.size();
@@ -76,7 +73,6 @@ class Parentesis {
                     soluciones.insert(intento);
                     solved = true;
                     solved_size = intento.size();
-                    // Agregar a soluciones
                 }
 
                 string intento_aux;
@@ -86,13 +82,7 @@ class Parentesis {
                             continue;
                         }
                         intento_aux = intento.substr(0, i) + intento.substr(i + 1, -1);
-                        //cout << "\nSubintento: " << intento_aux;
                         current.push(intento_aux);
-                        //usleep(50000);
-                        
-                        
-
-
                     }
                 }
             }
@@ -102,10 +92,14 @@ class Parentesis {
 };
 
 int main() {
-    // Caso de prueba
-    set <string, OrdenLexicografico> salida = Parentesis::balance("()())(+ 1 2)");
+    string input = "";
+    set <string, OrdenLexicografico> salida;
     set <string> :: iterator itr;
-    for (itr = salida.begin(); itr != salida.end(); ++itr){
-        cout << *itr << endl;
+    while(getline(cin,input)) {
+        set <string, OrdenLexicografico> salida = Parentesis::balance(input);
+        for (itr = salida.begin(); itr != salida.end(); ++itr) {
+            cout << *itr << endl;
+        }
+        cout << endl;
     }
 }
