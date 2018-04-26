@@ -65,7 +65,7 @@ class Parentesis {
                 intento = current.front();
                 current.pop();
 
-                int size_aux = intento.size();
+                unsigned int size_aux = intento.size();
                 if (size_aux < solved_size) {
                     break;
                 }
@@ -78,7 +78,7 @@ class Parentesis {
 
                 string intento_aux;
                 if (!solved) {
-                    for (int i = 0; i < intento.length(); i++) {
+                    for (unsigned int i = 0; i < intento.length(); i++) {
                         if (Parentesis::isParentesis(intento[i])) {
                             continue;
                         }
