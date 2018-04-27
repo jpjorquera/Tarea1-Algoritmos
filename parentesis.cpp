@@ -4,6 +4,7 @@
 #include <string.h>
 #include <set>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -63,10 +64,13 @@ int main() {
     int largoString;
     int largoInput;
     int levelSolucion;
+    typedef unordered_set<string> map1;
+    typedef unordered_map<int, map1> map2;
+
 
     while(getline(cin,input)){
         bool flag = false;
-        unordered_map<string, int> vistos;
+        map2 vistos;
         set<string, OrdenLexicografico> salida;
         set <string> :: iterator itr;
         removidos.push(input);
@@ -76,43 +80,43 @@ int main() {
         // Iteramos mientras la queue no este vacia
         while(removidos.size() != 0){
             testString = removidos.front();
-            // Revisamos si no revisamos ya la string antes
-            if(vistos.find(testString) == vistos.end()){
-                // Marcamos como revisada la string
+            removidos.pop();
+
+            // Es string valido, agregamos a resultados, terminamos la busqueda por esta rama y seteamos el nivel
+            if(Parentesis::isBalanced(testString)){
+             //   cout << testString << "|" << removidos.size() << endl;
+                if(!flag){
+                    levelSolucion = largoInput - testString.length();
+                    flag = true;
+                }
+                salida.insert(testString);
                 
-                vistos[testString] = 1;
-                // Es string valido, agregamos a resultados, terminamos la busqueda por esta rama y seteamos el nivel
-                if(Parentesis::isBalanced(testString)){
-                 //   cout << testString << "|" << removidos.size() << endl;
-                    if(!flag){
-                        levelSolucion = largoInput - testString.length();
-                        flag = true;
-                    }
-                    salida.insert(testString);
-                    vistos[testString] = 1;
-                    removidos.pop();
-                }
-                else{
-                    // Sacamos otro caracter para ver si ahora si es valido.
-                    largoString = (int)testString.length();
-                    if(largoInput - largoString <= levelSolucion){
-                        for (i = 0; i < largoString ; ++i){
-                            if(isParentesis(testString[i])){
-                                temporal.str(" ");
-                                temporal << testString.substr(0, i) << testString.substr(i+1) ;
-                                removidos.push( temporal.str() );
-                            }
-                            
-                        }
-                    } 
-                    
-                    removidos.pop();
-                }
             }
             else{
-                removidos.pop();
+                // Sacamos otro caracter para ver si ahora si es valido.
+                largoString = (int)testString.length();
+                if(largoInput - largoString <= levelSolucion){
+                    for (i = 0; i < largoString ; ++i){
+                        if(isParentesis(testString[i])){
+                            temporal.str(" ");
+                            temporal << testString.substr(0, i) << testString.substr(i+1) ;
+                            if(vistos.find(largoString) == vistos.end()){
+                                removidos.push( temporal.str() );
+                                vistos[largoString].insert(temporal.str());
+                            }
+                            else{
+                                if(vistos[largoString].find(temporal.str()) == vistos[largoString].end()){
+                                    removidos.push( temporal.str() );
+                                    vistos[largoString].insert(temporal.str());
+                                }
+                            }
+                        }
+                        
+                    }
+                } 
+                
+                
             }
-            
 
             
         }
