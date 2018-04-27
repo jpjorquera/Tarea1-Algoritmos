@@ -3,6 +3,7 @@
 #include <set>
 #include <iterator>
 #include <ctime>// include this header
+#include <unordered_set>
 
 using namespace std;
 
@@ -55,6 +56,8 @@ class Parentesis {
         }
 
         static set <string, OrdenLexicografico> balance(string linea) {
+            unordered_set<string> visitados;
+            visitados.insert(linea);
             queue <string> current;
             current.push(linea);
             string intento;
@@ -83,6 +86,12 @@ class Parentesis {
                             continue;
                         }
                         intento_aux = intento.substr(0, i) + intento.substr(i + 1, -1);
+                        if (visitados.find(intento_aux) == visitados.end()) {
+                            visitados.insert(intento_aux);
+                        }
+                        else {
+                            continue;
+                        }
                         current.push(intento_aux);
                     }
                 }
