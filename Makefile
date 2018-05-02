@@ -24,7 +24,7 @@ run:
 	./$(TARGET)
 
 test:
-	./$(TARGET) < input.txt
+	./$(TARGET) < input.txt | tee salida.txt
 	
 clean:
 	-rm -f *.o
